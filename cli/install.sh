@@ -58,7 +58,7 @@ trap 'rm -rf "$TMP"' EXIT
 echo "  → Downloading bb ${LATEST} for ${TARGET}..."
 curl -fsSL "$URL" -o "$TMP/bb.tar.xz"
 
-tar -xf "$TMP/bb.tar.xz" -C "$TMP"
+tar -xf "$TMP/bb.tar.xz" --strip-components=1 -C "$TMP"
 chmod +x "$TMP/bb"
 
 mkdir -p "$INSTALL_DIR"
