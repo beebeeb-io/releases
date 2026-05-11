@@ -18,8 +18,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install bb via install.sh
-RUN INSTALL_DIR=/usr/local/bin \
-    curl -fsSL https://releases.beebeeb.io/cli/install.sh | sh
+# INSTALL_DIR is not inherited through a pipe (sh runs in subshell), so we
+# download first and then run with the env var set on the sh command directly.
+RUN curl -fsSL https://releases.beebeeb.io/cli/install.sh -o /tmp/bb-install.sh && \
+    INSTALL_DIR=/usr/local/bin sh /tmp/bb-install.sh && \
+    rm /tmp/bb-install.sh
 
 # Create a test file to push
 RUN echo "Hello from Beebeeb E2E test $(date)" > /tmp/hello.txt
