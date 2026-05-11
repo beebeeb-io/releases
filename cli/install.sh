@@ -51,14 +51,14 @@ fi
 
 # ── Download and install ───────────────────────────────────────────────────────
 
-URL="https://github.com/${REPO}/releases/download/${LATEST}/beebeeb-cli-${LATEST}-${TARGET}.tar.gz"
+URL="https://github.com/${REPO}/releases/download/${LATEST}/beebeeb-cli-${TARGET}.tar.xz"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 echo "  → Downloading bb ${LATEST} for ${TARGET}..."
-curl -fsSL "$URL" -o "$TMP/bb.tar.gz"
+curl -fsSL "$URL" -o "$TMP/bb.tar.xz"
 
-tar -xzf "$TMP/bb.tar.gz" -C "$TMP"
+tar -xf "$TMP/bb.tar.xz" -C "$TMP"
 chmod +x "$TMP/bb"
 
 mkdir -p "$INSTALL_DIR"
