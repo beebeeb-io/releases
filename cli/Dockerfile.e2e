@@ -1,0 +1,40 @@
+# E2E test environment for the bb CLI.
+# Run interactively:
+#   docker build -t bb-e2e -f cli/Dockerfile.e2e .
+#   docker run -it --rm bb-e2e
+#
+# Inside the container:
+#   bb login        (opens browser — you'll see a code to paste)
+#   bb ls           (list vault root)
+#   bb push /tmp/hello.txt
+#   bb pull <id>
+
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install bb via install.sh
+RUN INSTALL_DIR=/usr/local/bin \
+    curl -fsSL https://releases.beebeeb.io/cli/install.sh | sh
+
+# Create a test file to push
+RUN echo "Hello from Beebeeb E2E test $(date)" > /tmp/hello.txt
+
+WORKDIR /root
+
+CMD ["bash", "-c", "\
+echo ''; \
+echo '  Beebeeb CLI E2E test environment'; \
+echo '  ──────────────────────────────────'; \
+echo ''; \
+echo '  1. Run: bb login'; \
+echo '     (A code will appear — open the URL in your browser to authorize)'; \
+echo ''; \
+echo '  2. Run: bb ls'; \
+echo '  3. Run: bb push /tmp/hello.txt'; \
+echo '  4. Run: bb pull <id from push output>'; \
+echo ''; \
+exec bash"]
