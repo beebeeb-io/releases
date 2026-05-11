@@ -51,7 +51,7 @@ fi
 
 # ── Download and install ───────────────────────────────────────────────────────
 
-URL="https://github.com/${REPO}/releases/download/${LATEST}/bb-${TARGET}.tar.gz"
+URL="https://github.com/${REPO}/releases/download/${LATEST}/beebeeb-cli-${LATEST}-${TARGET}.tar.gz"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
