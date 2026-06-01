@@ -5,6 +5,7 @@
 <p align="center">Static release host for beebeeb — the Tauri auto-update manifest and the CLI installer, served from <a href="https://releases.beebeeb.io">releases.beebeeb.io</a>.</p>
 <p align="center">
   <a href="https://releases.beebeeb.io"><img src="https://img.shields.io/badge/hosted%20on-github%20pages-555.svg" alt="Hosted on GitHub Pages" /></a> &nbsp;
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-555.svg" alt="License: MIT" /></a> &nbsp;
   <a href="SECURITY.md"><img src="https://img.shields.io/badge/security-policy-555.svg" alt="Security policy" /></a>
 </p>
 <p align="center"><a href="https://beebeeb.io">Website</a> &nbsp;·&nbsp; <a href="https://beebeeb.io/download">Download</a> &nbsp;·&nbsp; <a href="SECURITY.md">Report a vulnerability</a></p>
@@ -40,4 +41,4 @@ End-to-end encrypted, zero-knowledge cloud storage — made in Europe.
 
 ## License
 
-No license is declared for this repository yet. It hosts release artifacts only; the source for the products it distributes lives in the repos linked above. © Initlabs B.V. (KvK 95157565), Wijchen, Netherlands.
+[MIT](LICENSE) — covers the installer script + update manifests in this repo. The products it distributes are licensed in their own repos (AGPL-3.0). © Initlabs B.V. (KvK 95157565), Wijchen, Netherlands.
