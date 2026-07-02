@@ -1,0 +1,15 @@
+{
+  "version": "0.1.1-beta.1",
+  "notes": "**Full Changelog**: https://github.com/beebeeb-io/desktop/compare/desktop-v0.1.0...desktop-v0.1.1-beta.1\n\n**Full Changelog**: https://github.com/beebeeb-io/desktop/compare/desktop-v0.1.0...desktop-v0.1.1-beta.1",
+  "pub_date": "2026-07-02T14:44:11Z",
+  "platforms": {
+    "linux-x86_64": {
+      "url": "https://github.com/beebeeb-io/desktop/releases/download/desktop-v0.1.1-beta.1/Beebeeb_0.1.1-beta.1_amd64.AppImage",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUaHA5NStwM3RkVkRKUURUc0Q4ZmxERU10QU9ZVGxDSU9NRVdVdGJta2FtS2k1UXNmVnBkQjZFRkhiR0lmM01UZVBSaUVNOXNkUzlKWjdZWXdoa29JamNlYWdLY1VQbUEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzgzMDAzMjAwCWZpbGU6QmVlYmVlYl8wLjEuMS1iZXRhLjFfYW1kNjQuQXBwSW1hZ2UKM1pENkVsc1hIRUMySzVJOURtdjlEOFlHMmtCdk1BcEk2bW9hckNXaXBuSXlqUzdMekdlK2N3S25iKzhyalFYY3Azc0x2czlFVCtCODRrcFowTnRUQnc9PQo="
+    },
+    "windows-x86_64": {
+      "url": "https://github.com/beebeeb-io/desktop/releases/download/desktop-v0.1.1-beta.1/Beebeeb_0.1.1-1_x64_en-US.msi",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUaHA5NStwM3RkVkFWYmRjMEdnVStra3cxdnBsaXk4ZmRhRFErZmZYYk1sanQwOENiVTVGT3QrZHJhVFdralVzZDdHUDZOVmdyYjJEOTdxNzRNS3hSY2FqSGxnYUNIVGdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzgzMDAzNDIwCWZpbGU6QmVlYmVlYl8wLjEuMS0xX3g2NF9lbi1VUy5tc2kKTHNCOEpFdTZJLy9kTHIrMk9FZHROcE50NGt4dm9GNXFnT1F4TlRQVkExY21ZVSt2eFlSNEdRQkFqYXlFNkVKcXhOcXFlS1VveXFVdUhGaERSK1ZpQXc9PQo="
+    }
+  }
+}
