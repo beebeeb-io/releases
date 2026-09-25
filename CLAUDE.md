@@ -8,6 +8,7 @@ URL: releases.beebeeb.io
 - `desktop/latest.json` — Tauri v2 auto-update manifest
 - `cli/install.sh` — DEPRECATED legacy installer URL; a thin shim that runs the cargo-dist installer from https://get.beebeeb.io (checksum-verified). Never make it download/extract a binary itself.
 - `cli/test/install-sh.test.sh` — guard for the above; run `sh cli/test/install-sh.test.sh` (expect `N passed, 0 failed`).
+- `cli/test/install-e2e.test.sh` — end-to-end integrity test (fake GitHub, tampered vs clean archive, INSTALL_DIR, no-sha256sum); run `sh cli/test/install-e2e.test.sh` (expect `N pass, 0 fail`).
 
 ## Build & dev
 
