@@ -1,8 +1,9 @@
 #!/bin/sh
 # Integrity test for cli/install.sh (served at https://releases.beebeeb.io/cli/install.sh).
 #
-# Serves a fake GitHub from local files through a `curl` shim on PATH, so the
-# installer under test never reaches the network for the install itself. The
+# Serves a fake get.beebeeb.io + GitHub from local files through a `curl` shim
+# on PATH, so the installer under test never reaches the network for the
+# install itself. The
 # real v0.10.0 release installer + host artifact are fetched once (public,
 # read-only) into a cache and served from there.
 #
@@ -13,13 +14,13 @@
 #   4. no sha256sum on PATH: the tampered archive is still refused (the
 #      cargo-dist installer alone would skip verification and install it).
 #
-# Usage: sh tests/cli-install.test.sh [path/to/install.sh]
+# Usage: sh cli/test/install-e2e.test.sh [path/to/install.sh]
 # Env:   BB_TEST_CACHE=<dir> to reuse downloaded release files between runs.
 
 set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
-SCRIPT="${1:-$HERE/../cli/install.sh}"
+SCRIPT="${1:-$HERE/../install.sh}"
 SCRIPT="$(cd "$(dirname "$SCRIPT")" && pwd)/$(basename "$SCRIPT")"
 VERSION="v0.10.0"
 REAL_CURL="$(command -v curl)"
@@ -82,6 +83,8 @@ while [ $# -gt 0 ]; do
 done
 case "$url" in
   https://api.github.com/repos/beebeeb-io/cli/releases/latest) f="$FAKE_ROOT/api/latest.json" ;;
+  # get.beebeeb.io 302s to the latest release installer; serve that directly.
+  https://get.beebeeb.io) f="$FAKE_ROOT/gh/beebeeb-io/cli/releases/latest/download/beebeeb-cli-installer.sh" ;;
   https://github.com/*) f="$FAKE_ROOT/gh/${url#https://github.com/}" ;;
   *) echo "curl-shim: refusing unmapped URL $url" >&2; exit 22 ;;
 esac

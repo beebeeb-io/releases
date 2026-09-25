@@ -6,7 +6,9 @@ URL: releases.beebeeb.io
 ## Structure
 
 - `desktop/latest.json` — Tauri v2 auto-update manifest
-- `cli/` — Future CLI binary downloads
+- `cli/install.sh` — DEPRECATED legacy installer URL; a thin shim that runs the cargo-dist installer from https://get.beebeeb.io (checksum-verified). Never make it download/extract a binary itself.
+- `cli/test/install-sh.test.sh` — guard for the above; run `sh cli/test/install-sh.test.sh` (expect `N passed, 0 failed`).
+- `cli/test/install-e2e.test.sh` — end-to-end integrity test (fake GitHub, tampered vs clean archive, INSTALL_DIR, no-sha256sum); run `sh cli/test/install-e2e.test.sh` (expect `N pass, 0 fail`).
 
 ## Build & dev
 
@@ -14,4 +16,4 @@ No build step. GitHub Pages serves static files from main branch root.
 
 ## Updating
 
-Never edit manually. CI workflows in `repos/desktop` and `repos/cli` write here.
+`desktop/latest.json`: never edit manually, the `repos/desktop` release workflow writes it. `cli/install.sh` is hand-maintained (no CI writes it).
