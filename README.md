@@ -22,13 +22,23 @@ The root URL redirects to **[beebeeb.io/download](https://beebeeb.io/download)**
 | Path | Purpose |
 | --- | --- |
 | `desktop/latest.json` | Tauri v2 auto-update manifest. The desktop app polls this to discover new versions. |
-| `cli/install.sh` | One-line installer for the `bb` CLI — `curl -fsSL https://releases.beebeeb.io/cli/install.sh \| sh`. |
-| `cli/` | CLI binary downloads (populated by CI on each published release). |
+| `cli/install.sh` | **Deprecated** legacy URL, kept so old instructions still work. It only fetches and runs the canonical installer below; it never downloads a binary itself. |
+| `cli/test/install-sh.test.sh` | Guard: fails if `cli/install.sh` ever installs a binary without going through the checksum-verifying installer. |
 | `index.html` | Redirect to `beebeeb.io/download`. |
+
+## Installing the CLI
+
+The one supported installer is:
+
+```sh
+curl -fsSL https://get.beebeeb.io | sh
+```
+
+It is the installer published with each [`cli` release](https://github.com/beebeeb-io/cli/releases/latest). It carries the sha256 of every release archive and refuses an archive that does not match. `bb` is installed to `~/.cargo/bin`. The old `releases.beebeeb.io/cli/install.sh` URL now hands off to the same installer.
 
 ## How it's updated
 
-CI workflows in [`desktop`](https://github.com/beebeeb-io/desktop) and [`cli`](https://github.com/beebeeb-io/cli) write the manifest and binaries here on every published GitHub release, using a token scoped to `contents:write` on this repo. Manual edits will be overwritten by the next release.
+The [`desktop`](https://github.com/beebeeb-io/desktop) release workflow writes `desktop/latest.json` here on every published release, using a token scoped to `contents:write` on this repo. Manual edits to it will be overwritten by the next release. CLI binaries are not hosted here: they live on the [`cli` GitHub releases](https://github.com/beebeeb-io/cli/releases). `cli/install.sh` is maintained by hand. Run `sh cli/test/install-sh.test.sh` before changing it.
 
 ## Security
 
@@ -41,4 +51,4 @@ End-to-end encrypted, zero-knowledge cloud storage — made in Europe.
 
 ## License
 
-[MIT](LICENSE) — covers the installer script + update manifests in this repo. The products it distributes are licensed in their own repos (AGPL-3.0). © Initlabs B.V. (KvK 95157565), Wijchen, Netherlands.
+[MIT](LICENSE) — covers the installer shim + update manifests in this repo. The products it distributes are licensed in their own repos (AGPL-3.0). © Initlabs B.V. (KvK 95157565), Wijchen, Netherlands.
