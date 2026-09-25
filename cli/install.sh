@@ -1,89 +1,41 @@
 #!/bin/sh
-# bb — Beebeeb CLI installer
-# Usage:  curl -fsSL https://releases.beebeeb.io/cli/install.sh | sh
+# bb — Beebeeb CLI installer (legacy URL)
 #
-# Installs the latest bb binary to ~/.local/bin (or $INSTALL_DIR if set).
-# Supported: macOS (arm64, x86_64) · Linux (x86_64 musl, aarch64 musl)
+# This URL is kept only so older instructions keep working. The one supported
+# installer is:
+#
+#   curl -fsSL https://get.beebeeb.io | sh
+#
+# This script does nothing but fetch that installer and run it. It never
+# downloads or unpacks a binary itself: the installer it hands off to carries
+# the sha256 of every release archive and refuses an archive that does not match.
+#
+# Legacy compatibility: INSTALL_DIR=<dir> still installs bb directly into <dir>
+# (mapped to BEEBEEB_CLI_UNMANAGED_INSTALL, which also leaves your PATH alone).
+# Without it, bb goes to ~/.cargo/bin — the same place get.beebeeb.io puts it.
 
-set -e
+set -eu
 
-REPO="beebeeb-io/cli"
-BIN="bb"
-INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
+INSTALLER_URL="https://get.beebeeb.io"
 
-# ── Detect platform ────────────────────────────────────────────────────────────
-
-OS="$(uname -s)"
-ARCH="$(uname -m)"
-
-case "$OS" in
-  Darwin) OS_TAG="apple-darwin" ;;
-  Linux)  OS_TAG="unknown-linux-musl" ;;
-  *)
-    echo "bb: unsupported OS: $OS" >&2
-    exit 1
-    ;;
-esac
-
-case "$ARCH" in
-  x86_64)          ARCH_TAG="x86_64" ;;
-  arm64|aarch64)   ARCH_TAG="aarch64" ;;
-  *)
-    echo "bb: unsupported architecture: $ARCH" >&2
-    exit 1
-    ;;
-esac
-
-TARGET="${ARCH_TAG}-${OS_TAG}"
-
-# ── Fetch latest release tag ───────────────────────────────────────────────────
-
-echo "  → Fetching latest bb release..."
-LATEST="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
-  | grep '"tag_name"' \
-  | head -1 \
-  | sed 's/.*"tag_name": "\(.*\)".*/\1/')"
-
-if [ -z "$LATEST" ]; then
-  echo "bb: could not fetch latest release from GitHub" >&2
-  exit 1
+if [ -n "${INSTALL_DIR:-}" ] && [ -z "${BEEBEEB_CLI_UNMANAGED_INSTALL:-}" ]; then
+  BEEBEEB_CLI_UNMANAGED_INSTALL="$INSTALL_DIR"
+  export BEEBEEB_CLI_UNMANAGED_INSTALL
 fi
 
-# ── Download and install ───────────────────────────────────────────────────────
+echo "  Note: this installer URL is deprecated. Use: curl -fsSL ${INSTALLER_URL} | sh" >&2
 
-URL="https://github.com/${REPO}/releases/download/${LATEST}/beebeeb-cli-${TARGET}.tar.xz"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-echo "  → Downloading bb ${LATEST} for ${TARGET}..."
-curl -fsSL "$URL" -o "$TMP/bb.tar.xz"
+if ! curl --proto '=https' --tlsv1.2 -fsSL "$INSTALLER_URL" -o "$TMP/installer.sh"; then
+  echo "bb: could not download the installer from ${INSTALLER_URL}" >&2
+  exit 1
+fi
 
-tar -xf "$TMP/bb.tar.xz" --strip-components=1 -C "$TMP"
-chmod +x "$TMP/bb"
+if [ ! -s "$TMP/installer.sh" ]; then
+  echo "bb: the installer downloaded from ${INSTALLER_URL} is empty" >&2
+  exit 1
+fi
 
-mkdir -p "$INSTALL_DIR"
-mv "$TMP/bb" "$INSTALL_DIR/$BIN"
-
-# ── Done ───────────────────────────────────────────────────────────────────────
-
-echo ""
-echo "  ✓ bb ${LATEST} installed to ${INSTALL_DIR}/bb"
-echo ""
-
-# Warn if INSTALL_DIR is not in PATH
-case ":$PATH:" in
-  *":${INSTALL_DIR}:"*) ;;
-  *)
-    echo "  ! ${INSTALL_DIR} is not in your PATH."
-    echo "    Add this to your shell profile:"
-    echo ""
-    echo "      export PATH=\"\$HOME/.local/bin:\$PATH\""
-    echo ""
-    ;;
-esac
-
-echo "  Get started:"
-echo "    bb login"
-echo "    bb ls"
-echo "    bb push <file>"
-echo ""
+sh "$TMP/installer.sh" "$@"

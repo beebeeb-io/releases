@@ -17,11 +17,11 @@ RUN apt-get update && apt-get install -y \
     xz-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install bb via install.sh
-# INSTALL_DIR is not inherited through a pipe (sh runs in subshell), so we
-# download first and then run with the env var set on the sh command directly.
-RUN curl -fsSL https://releases.beebeeb.io/cli/install.sh -o /tmp/bb-install.sh && \
-    INSTALL_DIR=/usr/local/bin sh /tmp/bb-install.sh && \
+# Install bb via the canonical, checksum-verifying installer (get.beebeeb.io).
+# BEEBEEB_CLI_UNMANAGED_INSTALL puts bb directly in /usr/local/bin and leaves
+# shell profiles alone. Download first so the env var reaches the installer.
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.beebeeb.io -o /tmp/bb-install.sh && \
+    BEEBEEB_CLI_UNMANAGED_INSTALL=/usr/local/bin sh /tmp/bb-install.sh && \
     rm /tmp/bb-install.sh
 
 # Create a test file to push
